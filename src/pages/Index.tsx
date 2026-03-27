@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import JournalCard from "@/components/JournalCard";
 import InsightsPanel from "@/components/InsightsPanel";
 import ChatBar from "@/components/ChatBar";
+import WeeklyChart from "@/components/WeeklyChart";
 
 const moodBank = [
   { emoji: "😊", label: "Calm", subtitle: "Peaceful & relaxed" },
@@ -14,11 +15,11 @@ const moodBank = [
 ];
 
 const suggestions = [
-  "Try a 5-minute breathing exercise. Inhale for 4 counts, hold for 4, exhale for 6. This activates your parasympathetic nervous system.",
-  "Consider journaling three things you're grateful for. Gratitude practice has been shown to improve overall wellbeing.",
-  "A short walk outside could help reset your mood. Nature exposure reduces cortisol levels significantly.",
-  "Take a moment to stretch and release physical tension. Body and mind are deeply connected.",
-  "Reach out to someone you trust. Social connection is one of the strongest predictors of emotional resilience.",
+  "Based on your recent entries, consider taking a 10-minute walk outside to maintain your positive mood.",
+  "Try a 5-minute breathing exercise. Inhale for 4 counts, hold for 4, exhale for 6.",
+  "Consider journaling three things you're grateful for. Gratitude practice improves overall wellbeing.",
+  "A short walk outside could help reset your mood. Nature exposure reduces cortisol levels.",
+  "Reach out to someone you trust. Social connection is a strong predictor of emotional resilience.",
 ];
 
 const Index = () => {
@@ -37,16 +38,16 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen gradient-bg animate-gradient-shift relative overflow-hidden">
+    <div className="min-h-screen gradient-bg animate-gradient-shift relative overflow-x-hidden">
       {/* Decorative blurred orbs */}
       <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-emo-purple/20 blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 right-20 w-96 h-96 rounded-full bg-emo-pink/15 blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full bg-emo-blue/10 blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-6 pb-28 flex flex-col gap-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-6 pb-12 flex flex-col gap-6">
         <Header />
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div className="lg:col-span-3">
             <JournalCard onAnalyze={handleAnalyze} />
           </div>
@@ -54,6 +55,9 @@ const Index = () => {
             <InsightsPanel mood={mood} stress={stress} suggestion={suggestion} />
           </div>
         </div>
+
+        {/* Weekly Report Section */}
+        <WeeklyChart />
       </div>
 
       <ChatBar />

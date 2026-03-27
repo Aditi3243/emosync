@@ -1,37 +1,45 @@
-import { Brain } from "lucide-react";
+import { Brain, LayoutDashboard, Clock, MessageCircle } from "lucide-react";
 
-const tabs = ["Dashboard", "History", "Chat"];
+const tabs = [
+  { label: "Dashboard", icon: LayoutDashboard },
+  { label: "History", icon: Clock },
+  { label: "Chat", icon: MessageCircle },
+];
 
 const Header = () => {
   return (
     <header className="glass-card px-6 py-3 flex items-center justify-between">
-      <div className="flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-xl gradient-btn flex items-center justify-center">
-          <Brain className="w-5 h-5" />
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center text-lg font-bold">
+          E
         </div>
-        <span className="font-display font-bold text-lg text-foreground tracking-tight">
-          EmoSync
-        </span>
+        <div className="flex flex-col">
+          <span className="font-display font-bold text-lg text-primary leading-tight tracking-tight">
+            EmoSync
+          </span>
+          <span className="text-xs text-muted-foreground leading-tight">AI-Powered Emotional Wellness</span>
+        </div>
       </div>
 
       <nav className="hidden md:flex items-center gap-1">
         {tabs.map((tab, i) => (
           <button
-            key={tab}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+            key={tab.label}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
               i === 0
                 ? "bg-primary/10 text-primary"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
             }`}
           >
-            {tab}
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
           </button>
         ))}
       </nav>
 
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-card/50">
         <span className="status-dot" />
-        <span className="font-medium">AI Active</span>
+        <span className="font-medium text-sm text-foreground">AI Active</span>
       </div>
     </header>
   );

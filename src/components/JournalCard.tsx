@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles, BookOpen } from "lucide-react";
 import { useState } from "react";
 
 interface JournalCardProps {
@@ -10,20 +10,25 @@ const JournalCard = ({ onAnalyze }: JournalCardProps) => {
 
   return (
     <div className="glass-card-strong p-6 md:p-8 flex flex-col gap-5 animate-fade-in h-full">
-      <div>
-        <h2 className="font-display font-semibold text-xl text-foreground">
-          Daily Journal
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Express yourself freely — your thoughts are safe here.
-        </p>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <BookOpen className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <h2 className="font-display font-semibold text-xl text-foreground">
+            Your Journal
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Express yourself freely and let AI understand your emotions
+          </p>
+        </div>
       </div>
 
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="How are you feeling today?"
-        className="flex-1 min-h-[220px] w-full resize-none rounded-xl bg-muted/40 border border-border/50 p-5 text-foreground placeholder:text-muted-foreground/60 text-[15px] leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all duration-200"
+        className="flex-1 min-h-[260px] w-full resize-none rounded-2xl bg-muted/30 border border-border/40 p-5 text-foreground placeholder:text-muted-foreground/50 text-[15px] leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all duration-200"
       />
 
       <button

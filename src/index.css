@@ -123,8 +123,8 @@
   }
 
   .stress-bar {
-    background: linear-gradient(90deg, hsl(var(--emo-blue)), hsl(var(--emo-purple)));
-    @apply rounded-full h-2.5 transition-all duration-700 ease-out;
+    background: linear-gradient(90deg, hsl(var(--emo-green)), hsl(var(--emo-purple)), hsl(var(--emo-pink)));
+    @apply rounded-full transition-all duration-700 ease-out;
   }
 }
 

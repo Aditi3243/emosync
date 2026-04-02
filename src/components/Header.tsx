@@ -1,4 +1,5 @@
-import { Brain, LayoutDashboard, Clock, MessageCircle } from "lucide-react";
+import logo from '@/assets/logo.png';
+import { LayoutDashboard, Clock, MessageCircle } from "lucide-react";
 
 const tabs = [
   { label: "Dashboard", icon: LayoutDashboard },
@@ -10,8 +11,12 @@ const Header = () => {
   return (
     <header className="glass-card px-6 py-3 flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center text-lg font-bold">
-          E
+        <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center">
+          <img 
+            src={logo} 
+            alt="EmoSync Logo" 
+            className="w-full h-full object-contain"
+          />
         </div>
         <div className="flex flex-col">
           <span className="font-display font-bold text-lg text-primary leading-tight tracking-tight">

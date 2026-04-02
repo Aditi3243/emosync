@@ -152,3 +152,29 @@
   background-size: 200% 200%;
   animation: gradient-shift 8s ease infinite;
 }
+ 
+body {
+  background: linear-gradient(135deg, #f5f3ff, #ffe4f0, #fdf2f8);
+  min-height: 100vh;
+}
+
+/* soft glowing blobs */
+.bg-blob {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, #c4b5fd, transparent);
+  filter: blur(120px);
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.blob-left {
+  top: 10%;
+  left: -120px;
+}
+
+.blob-right {
+  bottom: 10%;
+  right: -120px;
+}

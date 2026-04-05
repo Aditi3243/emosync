@@ -6,6 +6,7 @@ interface InsightsPanelProps {
   mood: { emoji: string; label: string; subtitle: string };
   stress: number;
   suggestion: string;
+  language?: string;
   isAnalyzing?: boolean;
   hasAnalyzed?: boolean;
 }
@@ -34,11 +35,34 @@ const getReliefColor = (stress: number) => {
   return "text-rose-400";
 };
 
-const InsightsPanel = ({ mood, stress, suggestion, isAnalyzing, hasAnalyzed }: InsightsPanelProps) => {
+const langMap: Record<string, string> = {
+  hi: "hi",
+  en: "en",
+  pa: "pa",
+  bn: "bn",
+  ta: "ta",
+  te: "te",
+  mr: "mr",
+  gu: "gu",
+  ur: "ur",
+  fr: "fr",
+  de: "de",
+  es: "es",
+  ja: "ja",
+  ko: "ko",
+  zh: "zh-CN",
+  ar: "ar",
+  pt: "pt",
+  ru: "ru",
+  it: "it",
+};
+
+const InsightsPanel = ({ mood, stress, suggestion, language = "en", isAnalyzing, hasAnalyzed }: InsightsPanelProps) => {
 
   const calm = Math.max(0, 100 - stress);
   const [displayedText, setDisplayedText] = useState("");
 
+  // Typing effect
   useEffect(() => {
     if (!suggestion || isAnalyzing) return;
     setDisplayedText("");
@@ -50,6 +74,47 @@ const InsightsPanel = ({ mood, stress, suggestion, isAnalyzing, hasAnalyzed }: I
     }, 20);
     return () => clearInterval(interval);
   }, [suggestion, isAnalyzing]);
+
+  // Auto-speak via Google TTS proxy
+  useEffect(() => {
+    if (!suggestion || isAnalyzing || !hasAnalyzed) return;
+
+    window.speechSynthesis.cancel();
+
+    const ttsLang = langMap[language] || "en";
+
+    const playAudio = async () => {
+      try {
+        const response = await fetch(
+          `https://jrihhokwonyzreqonegv.supabase.co/functions/v1/tts-proxy`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            },
+            body: JSON.stringify({ text: suggestion, lang: ttsLang }),
+          }
+        );
+
+        if (!response.ok) throw new Error("TTS request failed");
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audio.play();
+      } catch (err) {
+        console.error("TTS failed, falling back to browser TTS:", err);
+        const utterance = new SpeechSynthesisUtterance(suggestion);
+        utterance.lang = language || "en";
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+
+    playAudio();
+
+    return () => window.speechSynthesis.cancel();
+  }, [suggestion, hasAnalyzed, language]);
 
   return (
     <div className="flex flex-col gap-5 animate-fade-in" style={{ animationDelay: "0.1s" }}>
@@ -138,6 +203,11 @@ const InsightsPanel = ({ mood, stress, suggestion, isAnalyzing, hasAnalyzed }: I
                 <Lightbulb className="w-4 h-4 text-purple-400" />
               </div>
               <p className="font-display font-semibold text-white">AI Suggestion</p>
+              {hasAnalyzed && (
+                <span className="ml-auto text-xs text-purple-300 flex items-center gap-1">
+                  🔊 Speaking...
+                </span>
+              )}
             </div>
             <p className="text-sm text-purple-100 leading-relaxed min-h-[60px]">
               {displayedText}

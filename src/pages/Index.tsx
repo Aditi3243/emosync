@@ -20,6 +20,7 @@ const Index = () => {
   const [mood, setMood] = useState({ emoji: "✨", label: "—", subtitle: "Write to get started" });
   const [stress, setStress] = useState(0);
   const [suggestion, setSuggestion] = useState("Write in your journal and let AI analyze your emotions to get personalized insights.");
+  const [language, setLanguage] = useState("en"); // 👈 new
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
   const [weeklyData, setWeeklyData] = useState<AnalysisEntry[]>([
@@ -50,6 +51,7 @@ const Index = () => {
       setMood({ emoji: data.moodEmoji, label: data.mood, subtitle: data.moodSubtitle });
       setStress(data.stress);
       setSuggestion(data.suggestion);
+      setLanguage(data.language || "en"); // 👈 new
       setHasAnalyzed(true);
 
       const today = dayNames[new Date().getDay()];
@@ -98,7 +100,7 @@ const Index = () => {
         {/* MAIN */}
         <div className="relative z-10 max-w-6xl mx-auto px-6 py-10 flex flex-col gap-10">
 
-          {/* 🚀 HERO SECTION */}
+          {/* HERO SECTION */}
           <div className="flex flex-col items-center text-center gap-4">
             <img
               src={logo}
@@ -114,7 +116,7 @@ const Index = () => {
             </p>
           </div>
 
-          {/* 🧠 MAIN GRID */}
+          {/* MAIN GRID */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
             {/* Journal */}
@@ -128,13 +130,14 @@ const Index = () => {
                 mood={mood}
                 stress={stress}
                 suggestion={suggestion}
+                language={language} // 👈 new
                 isAnalyzing={isAnalyzing}
                 hasAnalyzed={hasAnalyzed}
               />
             </div>
           </div>
 
-          {/* 📊 CHART */}
+          {/* CHART */}
           <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl p-4">
             <WeeklyChart
               data={weeklyData}
